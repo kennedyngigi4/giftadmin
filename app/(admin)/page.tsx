@@ -18,7 +18,8 @@ const Page = () => {
       if(!session?.accessToken) return;
 
       const resp = await ApiServices.get("management/dashboard/", session?.accessToken);
-      
+      console.log(resp);
+      console.log("Testing ......");
       setUsersCount(resp.users);
       setListingsCount(resp.listings);
       setBookingsCount(resp.bookings);
