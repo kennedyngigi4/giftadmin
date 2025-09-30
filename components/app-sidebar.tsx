@@ -1,7 +1,11 @@
+"use client"
+
 import React from 'react'
 import { Sidebar, SidebarContent, SidebarFooter, SidebarGroup, SidebarGroupContent, SidebarGroupLabel, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from './ui/sidebar'
-import { BookOpen, Calendar, CalendarCheckIcon, Car, CarFront, CloudCogIcon, Edit2Icon, GavelIcon, InboxIcon, LayoutDashboard, ListIcon, PenLine, TagIcon, UserRoundPlus, Users2Icon } from 'lucide-react'
+import { BookOpen, Calendar, CalendarCheckIcon, Car, CarFront, CloudCogIcon, Edit2Icon, GavelIcon, InboxIcon, LayoutDashboard, ListIcon, LogOut, PenLine, TagIcon, UserRoundPlus, Users2Icon } from 'lucide-react'
 import Link from 'next/link'
+import { signOut } from 'next-auth/react'
+import { useRouter } from 'next/navigation'
 
 
 const items = [
@@ -63,116 +67,126 @@ const items = [
 
 
 const AppSidebar = () => {
-  return (
-    <Sidebar collapsible="icon" variant='sidebar'>
-        <SidebarHeader>
-            ADMIN
-        </SidebarHeader>
-        <SidebarContent>
-            <SidebarMenu>
-                <SidebarMenuItem>
-                    <SidebarMenuButton asChild>
-                        <Link href="/"><LayoutDashboard /> Dashboard</Link>
-                    </SidebarMenuButton>
-                </SidebarMenuItem>
-            </SidebarMenu>
-            <SidebarMenu>
-                <SidebarMenuItem>
-                    <SidebarMenuButton asChild>
-                        <Link href="/car-hire"><CalendarCheckIcon /> Car Hire Bookings</Link>
-                    </SidebarMenuButton>
-                </SidebarMenuItem>
-            </SidebarMenu>
-            <SidebarMenu>
-                <SidebarMenuItem>
-                    <SidebarMenuButton asChild>
-                        <Link href="/search-requests"><InboxIcon /> Search Requests</Link>
-                    </SidebarMenuButton>
-                </SidebarMenuItem>
-            </SidebarMenu>
-            <SidebarGroup>
-                <SidebarGroupLabel>Blogs</SidebarGroupLabel>
-                <SidebarGroupContent>
-                    <SidebarMenu>
-                        {items.map((item: any) => (
-                            <div key={item.title}>
-                                {item.group == "blogs" && (
-                                    <SidebarMenuItem>
-                                        <SidebarMenuButton asChild>
-                                            <Link href={item.url}><item.icon /> {item.title}</Link>
-                                        </SidebarMenuButton>
-                                    </SidebarMenuItem>
-                                )}
-                            </div>
-                        ))}
-                    </SidebarMenu>
-                </SidebarGroupContent>
-            </SidebarGroup>
-             
-            <SidebarGroup>
-                <SidebarGroupLabel>Listings</SidebarGroupLabel>
-                <SidebarGroupContent>
-                    <SidebarMenu>
-                        {items.map((item: any) => (
-                            <div key={item.title}>
-                                {item.group == "listings" && (
-                                    <SidebarMenuItem>
-                                        <SidebarMenuButton asChild>
-                                            <Link href={item.url}><item.icon /> {item.title}</Link>
-                                        </SidebarMenuButton>
-                                    </SidebarMenuItem>
-                                )}
-                            </div>
-                        ))}
-                    </SidebarMenu>
-                </SidebarGroupContent>
-            </SidebarGroup>
-            
-            <SidebarGroup>
-                <SidebarGroupLabel>Users</SidebarGroupLabel>
-                <SidebarGroupContent>
-                    <SidebarMenu>
-                        {items.map((item: any) => (
-                            <div key={item.title}>
-                                {item.group == "users" && (
-                                    <SidebarMenuItem>
-                                        <SidebarMenuButton asChild>
-                                            <Link href={item.url}><item.icon /> {item.title}</Link>
-                                        </SidebarMenuButton>
-                                    </SidebarMenuItem>
-                                )}
-                            </div>
-                        ))}
-                    </SidebarMenu>
-                </SidebarGroupContent>
-            </SidebarGroup>
+    const router = useRouter();
+
+    const logoutUser = async() => {
+        console.log("Logging out ....");
+        await signOut();
+        router.push("/auth/login");
+    }
+
+    return (
+        <Sidebar collapsible="icon" variant='sidebar'>
+            <SidebarHeader>
+                ADMIN
+            </SidebarHeader>
+            <SidebarContent>
+                <SidebarMenu>
+                    <SidebarMenuItem>
+                        <SidebarMenuButton asChild>
+                            <Link href="/"><LayoutDashboard /> Dashboard</Link>
+                        </SidebarMenuButton>
+                    </SidebarMenuItem>
+                </SidebarMenu>
+                <SidebarMenu>
+                    <SidebarMenuItem>
+                        <SidebarMenuButton asChild>
+                            <Link href="/car-hire"><CalendarCheckIcon /> Car Hire Bookings</Link>
+                        </SidebarMenuButton>
+                    </SidebarMenuItem>
+                </SidebarMenu>
+                <SidebarMenu>
+                    <SidebarMenuItem>
+                        <SidebarMenuButton asChild>
+                            <Link href="/search-requests"><InboxIcon /> Search Requests</Link>
+                        </SidebarMenuButton>
+                    </SidebarMenuItem>
+                </SidebarMenu>
+                <SidebarGroup>
+                    <SidebarGroupLabel>Blogs</SidebarGroupLabel>
+                    <SidebarGroupContent>
+                        <SidebarMenu>
+                            {items.map((item: any) => (
+                                <div key={item.title}>
+                                    {item.group == "blogs" && (
+                                        <SidebarMenuItem>
+                                            <SidebarMenuButton asChild>
+                                                <Link href={item.url}><item.icon /> {item.title}</Link>
+                                            </SidebarMenuButton>
+                                        </SidebarMenuItem>
+                                    )}
+                                </div>
+                            ))}
+                        </SidebarMenu>
+                    </SidebarGroupContent>
+                </SidebarGroup>
+                
+                <SidebarGroup>
+                    <SidebarGroupLabel>Listings</SidebarGroupLabel>
+                    <SidebarGroupContent>
+                        <SidebarMenu>
+                            {items.map((item: any) => (
+                                <div key={item.title}>
+                                    {item.group == "listings" && (
+                                        <SidebarMenuItem>
+                                            <SidebarMenuButton asChild>
+                                                <Link href={item.url}><item.icon /> {item.title}</Link>
+                                            </SidebarMenuButton>
+                                        </SidebarMenuItem>
+                                    )}
+                                </div>
+                            ))}
+                        </SidebarMenu>
+                    </SidebarGroupContent>
+                </SidebarGroup>
+                
+                <SidebarGroup>
+                    <SidebarGroupLabel>Users</SidebarGroupLabel>
+                    <SidebarGroupContent>
+                        <SidebarMenu>
+                            {items.map((item: any) => (
+                                <div key={item.title}>
+                                    {item.group == "users" && (
+                                        <SidebarMenuItem>
+                                            <SidebarMenuButton asChild>
+                                                <Link href={item.url}><item.icon /> {item.title}</Link>
+                                            </SidebarMenuButton>
+                                        </SidebarMenuItem>
+                                    )}
+                                </div>
+                            ))}
+                        </SidebarMenu>
+                    </SidebarGroupContent>
+                </SidebarGroup>
 
 
-            <SidebarGroup>
-                <SidebarGroupLabel>Settings</SidebarGroupLabel>
-                <SidebarGroupContent>
-                    <SidebarMenu>
-                        {items.map((item: any) => (
-                            <div key={item.title}>
-                                {item.group == "settings" && (
-                                    <SidebarMenuItem>
-                                        <SidebarMenuButton asChild>
-                                            <Link href={item.url}><item.icon /> {item.title}</Link>
-                                        </SidebarMenuButton>
-                                    </SidebarMenuItem>
-                                )}
-                            </div>
-                        ))}
-                    </SidebarMenu>
-                </SidebarGroupContent>
-            </SidebarGroup>
+                <SidebarGroup>
+                    <SidebarGroupLabel>Settings</SidebarGroupLabel>
+                    <SidebarGroupContent>
+                        <SidebarMenu>
+                            {items.map((item: any) => (
+                                <div key={item.title}>
+                                    {item.group == "settings" && (
+                                        <SidebarMenuItem>
+                                            <SidebarMenuButton asChild>
+                                                <Link href={item.url}><item.icon /> {item.title}</Link>
+                                            </SidebarMenuButton>
+                                        </SidebarMenuItem>
+                                    )}
+                                </div>
+                            ))}
+                        </SidebarMenu>
+                    </SidebarGroupContent>
+                </SidebarGroup>
 
-        </SidebarContent>
-        <SidebarFooter>
-            ADMIN
-        </SidebarFooter>
-    </Sidebar>
-  )
+            </SidebarContent>
+            <SidebarFooter className='cursor-pointer' onClick={logoutUser}>
+                <div className="flex flex-row text-sm text-red-500 items-center">
+                    <LogOut size={20} className='pe-2' /> Logout
+                </div>
+            </SidebarFooter>
+        </Sidebar>
+    )
 }
 
 export default AppSidebar

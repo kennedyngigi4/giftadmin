@@ -24,8 +24,8 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
                 const user = await response.json();
                 console.log(user)
                 
-                if(user){
-                    return user
+                if(user.success){
+                    return user;
                 }
                 return null;
             },
